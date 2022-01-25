@@ -9,11 +9,9 @@ use pocketmine\player\Player;
 
 use onebone\economyapi\EconomyAPI;
 
-class SetMoneyCommand extends Command
-{
+class SetMoneyCommand extends Command {
 
-    public function __construct(private EconomyAPI $plugin)
-    {
+    public function __construct(EconomyAPI $plugin) {
         $desc = $plugin->getCommandMessage("setmoney");
         parent::__construct("setmoney", $desc["description"], $desc["usage"]);
 
@@ -22,9 +20,10 @@ class SetMoneyCommand extends Command
         $this->plugin = $plugin;
     }
 
-    public function execute(CommandSender $sender, string $label, array $params): bool
-    {
-        if (!$this->plugin->isEnabled()) return false;
+    public function execute(CommandSender $sender, string $label, array $params): bool {
+        if (!$this->plugin->isEnabled()) {
+            return false;
+        }
         if (!$this->testPermission($sender)) {
             return false;
         }
@@ -61,6 +60,7 @@ class SetMoneyCommand extends Command
                 break;
             default:
                 $sender->sendMessage("WTF");
+                break;
         }
         return true;
     }
