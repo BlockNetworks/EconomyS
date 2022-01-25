@@ -9,9 +9,9 @@ use pocketmine\player\Player;
 
 use onebone\economyapi\EconomyAPI;
 
-class MyStatusCommand extends Command{
+class MyStatusCommand extends Command {
 
-	public function __construct(private EconomyAPI $plugin){
+	public function __construct(EconomyAPI $plugin) {
 		$desc = $plugin->getCommandMessage("mystatus");
 		parent::__construct("mystatus", $desc["description"], $desc["usage"]);
 
@@ -20,13 +20,15 @@ class MyStatusCommand extends Command{
 		$this->plugin = $plugin;
 	}
 
-	public function execute(CommandSender $sender, string $label, array $params): bool{
-		if(!$this->plugin->isEnabled()) return false;
-		if(!$this->testPermission($sender)){
+	public function execute(CommandSender $sender, string $label, array $params): bool {
+		if (!$this->plugin->isEnabled()) {
+			return false;
+		}
+		if (!$this->testPermission($sender)) {
 			return false;
 		}
 
-		if(!$sender instanceof Player){
+		if (!$sender instanceof Player) {
 			$sender->sendMessage(TextFormat::RED . "Please run this command in-game.");
 			return true;
 		}
@@ -34,11 +36,11 @@ class MyStatusCommand extends Command{
 		$money = $this->plugin->getAllMoney();
 
 		$allMoney = 0;
-		foreach($money as $m){
+		foreach ($money as $m) {
 			$allMoney += $m;
 		}
 		$topMoney = 0;
-		if($allMoney > 0){
+		if ($allMoney > 0) {
 			$topMoney = round((($money[strtolower($sender->getName())] / $allMoney) * 100), 2);
 		}
 
