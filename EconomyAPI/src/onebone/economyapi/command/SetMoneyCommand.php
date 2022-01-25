@@ -59,7 +59,6 @@ class SetMoneyCommand extends Command {
                 }
                 break;
             default:
-                $sender->sendMessage("WTF");
                 break;
         }
         return true;
