@@ -8,11 +8,9 @@ use pocketmine\utils\TextFormat;
 
 use onebone\economyapi\EconomyAPI;
 
-class SetLangCommand extends Command
-{
+class SetLangCommand extends Command {
 
-    public function __construct(private EconomyAPI $plugin)
-    {
+    public function __construct(EconomyAPI $plugin) {
         $desc = $plugin->getCommandMessage("setlang");
         parent::__construct("setlang", $desc["description"], $desc["usage"]);
 
@@ -21,9 +19,10 @@ class SetLangCommand extends Command
         $this->plugin = $plugin;
     }
 
-    public function execute(CommandSender $sender, string $label, array $params): bool
-    {
-        if (!$this->plugin->isEnabled()) return false;
+    public function execute(CommandSender $sender, string $label, array $params): bool {
+        if (!$this->plugin->isEnabled()) {
+            return false;
+        }
         if (!$this->testPermission($sender)) {
             return false;
         }
