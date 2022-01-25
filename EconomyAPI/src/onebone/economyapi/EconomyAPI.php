@@ -437,18 +437,15 @@ class EconomyAPI extends PluginBase implements Listener
             $this->provider->open();
     }
 
-    private function checkUpdate()
-    {
+    private function checkUpdate() {
         try {
-            $info = json_decode(Internet::simpleCurl($this->getConfig()->get("update-host") . "?version=" . $this->getDescription()->getVersion() . "&package_version=" . self::PACKAGE_VERSION)->getBody(), true);
-            if (!isset($info["status"]) or $info["status"] !== true) {
-                $this->getLogger()->notice("Something went wrong on update server.");
-                return false;
-            }
-            if ($info["update-available"] === true) {
-                $this->getLogger()->notice("Server says new version (" . $info["new-version"] . ") of EconomyS is out. Check it out at " . $info["download-address"]);
-            }
+            $info = json_decode(Internet::simpleCurl("https://blocknetworks.github.io/plugins/economy/notice.json")->getBody(), true);
             $this->getLogger()->notice($info["notice"]);
+            $update = json_decode(Internet::simpleCurl("https://raw.githubusercontent.com/BlockNetworks/EconomyS/status/update.json")->getBody(), true);
+            if ($update["EconomyAPI"] !== $this->getDescription()->getVersion()) {
+                $this->getLogger()->notice("EconomyAPI version " . $update["EconomyAPI"] . " has been released.");
+                $this->getLogger()->notice("Download it at https://github.com/BlockNetworks/EconomyS/releases");
+            }
             return true;
         } catch (\Throwable $e) {
             $this->getLogger()->logException($e);
