@@ -26,11 +26,9 @@ use pocketmine\command\CommandSender;
 use onebone\economyapi\EconomyAPI;
 use onebone\economyapi\task\SortTask;
 
-class TopMoneyCommand extends Command
-{
+class TopMoneyCommand extends Command {
 
-    public function __construct(private EconomyAPI $plugin)
-    {
+    public function __construct(private EconomyAPI $plugin) {
         $desc = $plugin->getCommandMessage("topmoney");
         parent::__construct("topmoney", $desc["description"], $desc["usage"]);
 
@@ -39,12 +37,15 @@ class TopMoneyCommand extends Command
         $this->plugin = $plugin;
     }
 
-    public function execute(CommandSender $sender, string $label, array $params): bool
-    {
-        if (!$this->plugin->isEnabled()) return false;
-        if (!$this->testPermission($sender)) return false;
+    public function execute(CommandSender $sender, string $label, array $params): bool {
+        if (!$this->plugin->isEnabled()) {
+            return false;
+        }
+        if (!$this->testPermission($sender)) {
+            return false;
+        }
 
-        $page = (int)array_shift($params);
+        $page = (int) array_shift($params);
 
         $server = $this->plugin->getServer();
 
@@ -65,4 +66,5 @@ class TopMoneyCommand extends Command
         $server->getAsyncPool()->submitTask($task);
         return true;
     }
+
 }
